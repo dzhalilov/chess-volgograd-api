@@ -20,13 +20,25 @@ public class Player {
     private int id;
     private String name;
     private String sex;
-    private String country;
     private int regionCode;
-    private String region;
     private int age;
-    private int rusRating;
+    private int classicRating;
+    private int rapidRating;
+    private int blitzRating;
     private String fideId;
-    private int fideRating;
+    private int fideClassicRating;
+
+    public Player(int id, String name, String sex, int regionCode, int age, int classicRating, String fideId, int fideClassicRating) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.regionCode = regionCode;
+        this.age = age;
+        this.classicRating = classicRating;
+        this.fideId = fideId;
+        this.fideClassicRating = fideClassicRating;
+
+    }
 
     @Override
     public String toString() {
@@ -34,13 +46,13 @@ public class Player {
                 "ID РШФ=" + id +
                 ", Имя='" + name + '\'' +
                 ", Пол=" + sex +
-                ", Страна='" + country + '\'' +
                 ", Код региона=" + regionCode +
-                ", Регион='" + region + '\'' +
                 ", Год рождения=" + age +
-                ", Рейтинг РШФ=" + rusRating +
+                ", Рейтинг РШФ классика=" + classicRating +
+                ", Рейтинг РШФ рапид=" + rapidRating +
+                ", Рейтинг РШФ блиц=" + blitzRating +
                 ", FIDE ID=" + fideId +
-                ", Рейтинг FIDE=" + fideRating +
+                ", Рейтинг FIDE=" + fideClassicRating +
                 '}';
     }
 }

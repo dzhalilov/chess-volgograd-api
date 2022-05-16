@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Volgograd chess players</title>
+</head>
+<body>
+    <h3>Шахматисты Волгоградской области:</h3>
+    <a href="/">На стартовую страницу</a>
+    <br>
+
+
+    <table border="1">
+        <tr style="color:blue">
+            <th>№</th>
+            <th>ФИО</th>
+            <th>РШФ ID</th>
+            <th>пол</th>
+            <th>год рождения</th>
+            <th>рейтинг РШФ</th>
+        </tr>
+        <tr th:each="player : ${players}">
+            <td th:text="${players.indexOf(person) + 1}">user</td>
+            <td th:text="${player.getName()}">user</td>
+            <td th:text="${player.getId()}">user</td>
+            <td th:text="${player.getSex()}">user</td>
+            <td th:text="${player.getAge()}">user</td>
+            <td th:text="${player.getRusRating()}">user</td>
+        </tr>
+    </table>
+
+</body>
+</html>

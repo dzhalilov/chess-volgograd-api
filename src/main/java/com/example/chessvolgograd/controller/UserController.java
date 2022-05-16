@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = UserController.REST_USER_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = "players")
+@CrossOrigin("http://localhost:8081/")
 public class UserController {
+    static final String REST_USER_URL = "rest/players";
 
     @Autowired
     PlayerRepository playerRepository;
@@ -27,5 +30,11 @@ public class UserController {
     @Cacheable
     public List<Player> getAll() {
         return playerRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    }
+
+    @GetMapping("/count")
+    @Cacheable
+    public long getCount() {
+        return playerRepository.count();
     }
 }

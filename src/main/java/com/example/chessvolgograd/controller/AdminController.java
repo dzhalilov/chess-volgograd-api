@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = AdminController.REST_URL)
 @Slf4j
 public class AdminController {
-    static final String REST_URL = "/admin";
+    static final String REST_URL = "rest/admin";
 
     @Autowired
     PlayerRepository playerRepository;

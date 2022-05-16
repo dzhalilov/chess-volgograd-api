@@ -27,15 +27,15 @@ public class PlayerIncomeUtil {
         log.info("Start downloading file from URL={}", URL_PATH);
         List<String> listOfPlayers34 = readZipFileFromRemote();
         log.info("File was downloaded and unziped");
-        List<Player> listOfPerson = creatListOfPerson(listOfPlayers34);
+        List<Player> listOfPerson = creatListOfPersonWithClassic(listOfPlayers34);
         log.info("Downloading player from API was completed with {} errors. Read {} players.", errors, listOfPerson.size());
 
-        System.out.println("############################################");
-        listOfPerson.forEach(System.out::println);
+//        System.out.println("############################################");
+//        listOfPerson.forEach(System.out::println);
         return listOfPerson;
     }
 
-    private static List<Player> creatListOfPerson(List<String> list) {
+    private static List<Player> creatListOfPersonWithClassic(List<String> list) {
         List<Player> listOfPerson = new ArrayList<>();
         Player player = null;
         for (String line : list) {
@@ -47,9 +47,7 @@ public class PlayerIncomeUtil {
                 int id = Integer.parseInt(temp[0]);
                 String name = temp[1];
                 String sex = temp[2].equals("f") ? "Ж" : "М";
-                String country = temp[3];
                 int regionCode = Integer.parseInt(temp[4]);
-                String region = temp[5];
                 int age = Integer.parseInt(temp[6]);
                 if (!temp[7].equals("")) {
                     rating = Integer.parseInt(temp[7]);
@@ -62,7 +60,7 @@ public class PlayerIncomeUtil {
                         fideRating = Integer.parseInt(temp[9]);
                     }
                 }
-                player = new Player(id, name, sex, country, regionCode, region, age, rating, fideId, fideRating);
+                player = new Player(id, name, sex, regionCode, age, rating, fideId, fideRating);
             } catch (Exception e) {
                 System.out.println("Ошибка обработки строки: " + line + e.getMessage());
                 errors++;
