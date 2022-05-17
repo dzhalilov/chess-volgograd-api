@@ -29,7 +29,8 @@ public class UserController {
     @GetMapping
     @Cacheable
     public List<Player> getAll() {
-        return playerRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return playerRepository.findAll(Sort.by(Sort.Direction.DESC, "classicRating"));
+//        return playerRepository.findAll();
     }
 
     @GetMapping("/count")
