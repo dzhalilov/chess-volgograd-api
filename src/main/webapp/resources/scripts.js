@@ -1,12 +1,12 @@
 function loadContent(root, suffix, currentPage) {
 
     let objects = JSON.parse(Get(root + "/rest/players" + suffix).responseText);
-    // let playersCount = Get(root + "/rest/players/count" + suffix).responseText;
-    let playersCount = objects.length;
+    let playersCount = Get(root + "/rest/players/count" + suffix).responseText;
     document.getElementById("count").innerText = "Игроков найдено: " + playersCount;
     let table = document.getElementById("mainTable");
     table.innerHTML = "";
-    createPaging(document.getElementById("limit").value, playersCount, currentPage);
+    let limit = document.getElementById("limit").value;
+    createPaging(limit, playersCount, currentPage);
 
     for (let i = 0; i < objects.length; i++) {
 
@@ -14,7 +14,8 @@ function loadContent(root, suffix, currentPage) {
         let th = document.createElement("th");
         th.setAttribute("scope", "row");
 
-        th.appendChild(document.createTextNode(i + 1));
+        th.appendChild(document.createTextNode((parseInt(currentPage) - 1) * limit + i + 1));
+        console.log(currentPage + " : " + objects.length + " : " + i);
         tr.appendChild(th);
         let td0 = document.createElement("td");
 

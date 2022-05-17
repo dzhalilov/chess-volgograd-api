@@ -29,10 +29,7 @@ public class PlayerSpecification implements Specification<Player> {
             return builder.equal(root.get(criteria.getKey()), criteria.getValue());
         } else if (criteria.getOperation().equalsIgnoreCase("%")) {
             return builder.like(builder.lower(root.<String>get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase() + "%");
-        } else if (criteria.getOperation().equalsIgnoreCase("order")) {
-            return null;
         }
-
         return null;
     }
 }

@@ -24,7 +24,7 @@
     <form style="background-color: #E9ECEF; padding: 20px; border-radius: 10px">
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputName">Имя</label>
+                <label for="inputName">Имя спортсмена</label>
                 <input type="text" class="form-control" id="inputName" placeholder="Имя">
             </div>
             <div class="form-group col-md-6">
@@ -82,8 +82,8 @@
             style="margin-left: 5px" id="limit"
             class="form-control-sm">
         <option>20</option>
-        <option selected>100</option>
-        <option>All</option>
+        <option selected>50</option>
+        <option>100</option>
     </select>
     <label style="float: right; margin-right: 10px" for="limit">Players in a page: </label>
 
@@ -100,11 +100,6 @@
             <th scope="col">Рейтинг РШФ классика</th>
             <th scope="col">Рейтинг РШФ рапид</th>
             <th scope="col">Рейтинг РШФ блиц</th>
-            <%--            <th scope="col">Until Next Level</th>--%>
-            <%--            <th scope="col">Birthday</th>--%>
-            <%--            <th scope="col">Banned</th>--%>
-            <%--            <th scope="col"></th>--%>
-            <%--            <th scope="col"></th>--%>
         </tr>
         </thead>
         <tbody id="mainTable">
