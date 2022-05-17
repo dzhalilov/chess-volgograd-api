@@ -31,23 +31,28 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   # Jackson Serialization Issue Resolver
-  jackson:
-    visibility:
-      field: any
-      getter: none
-      setter: none
-      is-getter: none
+#  jackson:
+#    visibility:
+#      field: any
+#      getter: none
+#      setter: none
+#      is-getter: none
 
   # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
   cache:
     cache-names: players
     caffeine.spec: maximumSize=1,expireAfterAccess=60s
 
+  security:
+    user:
+      name: admin
+      password: e366e5fd-7797-4625-b542-ee5355e8d29b
+
 logging:
   level:
     root: WARN
-    ru.javaops.topjava2: DEBUG
-    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+    com.example.chessvolgograd: DEBUG
+#    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server.servlet:
   encoding:
