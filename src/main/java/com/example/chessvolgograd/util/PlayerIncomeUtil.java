@@ -41,11 +41,6 @@ public class PlayerIncomeUtil {
         return listOfPersonClassic;
     }
 
-    public static void main(String[] args) {
-        List<Player> players = populateFromAPI();
-        players.forEach(System.out::println);
-    }
-
     private static void addToPlayersRapidRating(List<Player> playerList, List<String> listFromAPI) {
         List<Player> listOfPerson = new ArrayList<>();
         Player player;
