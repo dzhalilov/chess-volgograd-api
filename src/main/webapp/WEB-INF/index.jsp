@@ -20,8 +20,8 @@
 </head>
 <body onload="loadContent('${pageContext.request.contextPath}','', 1);">
 <div class="container">
-    <h3 style="margin-top: 10px">Панель для фильтров</h3>
-    <form style="background-color: #E9ECEF; padding: 20px; border-radius: 10px">
+    <form  id="myFilter" style="background-color: #E9ECEF; padding: 20px; border-radius: 10px; margin-top: 10px">
+    <h4>Фильтры</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputName">Имя спортсмена</label>
@@ -63,6 +63,9 @@
             <i class='fas fa-chess-pawn'></i>
             Отфильтровать
         </button>
+        <button type="button" onclick="processReset('${pageContext.request.contextPath}',1)" class="btn btn-danger">
+            Сбросить фильтр
+        </button>
         <h5 id="count" style="float: right; margin-right: 20px"></h5>
     </form>
     <h1 style="text-align: center; margin-top: 50px; margin-bottom: 30px">
@@ -85,21 +88,21 @@
         <option selected>50</option>
         <option>100</option>
     </select>
-    <label style="float: right; margin-right: 10px" for="limit">Players in a page: </label>
+    <label style="float: right; margin-right: 10px" for="limit">Шахматистов на странице: </label>
 
     <br>
 
     <table style="margin-top: 10px" class="table">
-        <thead class="thead-dark">
+        <thead class="table-bordered thead-dark">
         <tr>
-            <th scope="col">№</th>
-            <th scope="col">id РШФ</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Год рождения</th>
-            <th scope="col">Пол</th>
-            <th scope="col">Рейтинг РШФ классика</th>
-            <th scope="col">Рейтинг РШФ рапид</th>
-            <th scope="col">Рейтинг РШФ блиц</th>
+            <th class="text-center" scope="col">№</th>
+            <th class="text-center" scope="col">id РШФ</th>
+            <th class="text-center" scope="col">Имя</th>
+            <th class="text-center" scope="col">Год рождения</th>
+            <th class="text-center" scope="col">Пол</th>
+            <th class="text-center" scope="col">Рейтинг РШФ классика</th>
+            <th class="text-center" scope="col">Рейтинг РШФ рапид</th>
+            <th class="text-center" scope="col">Рейтинг РШФ блиц</th>
         </tr>
         </thead>
         <tbody id="mainTable">

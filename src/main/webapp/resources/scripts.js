@@ -15,9 +15,9 @@ function loadContent(root, suffix, currentPage) {
         th.setAttribute("scope", "row");
 
         th.appendChild(document.createTextNode((parseInt(currentPage) - 1) * limit + i + 1));
-        console.log(currentPage + " : " + objects.length + " : " + i);
         tr.appendChild(th);
         let td0 = document.createElement("td");
+        td0.setAttribute("class", "text-center");
 
         td0.appendChild(document.createTextNode(objects[i].id));
         tr.appendChild(td0);
@@ -26,21 +26,29 @@ function loadContent(root, suffix, currentPage) {
         td1.appendChild(document.createTextNode(objects[i].name));
         tr.appendChild(td1);
         let td2 = document.createElement("td");
+        td2.setAttribute("class", "text-center");
 
         td2.appendChild(document.createTextNode(objects[i].age));
         tr.appendChild(td2);
         let td3 = document.createElement("td");
+        td3.setAttribute("class", "text-center");
 
         td3.appendChild(document.createTextNode(objects[i].sex));
         tr.appendChild(td3);
         let td4 = document.createElement("td");
+        td4.setAttribute("class", "text-center");
+
         td4.appendChild(document.createTextNode(objects[i].classicRating));
         tr.appendChild(td4);
         let td5 = document.createElement("td");
         td5.appendChild(document.createTextNode(objects[i].rapidRating));
+        td5.setAttribute("class", "text-center");
+
         tr.appendChild(td5);
         let td6 = document.createElement("td");
         td6.appendChild(document.createTextNode(objects[i].blitzRating));
+        td6.setAttribute("class", "text-center");
+
         tr.appendChild(td6);
         table.appendChild(tr);
     }
@@ -60,6 +68,10 @@ function Get(requestUrl) {
         $('#myModal').modal('show');
     }
     return Httpreq;
+}
+function processReset(contextPath, number) {
+    document.getElementById("myFilter").reset();
+    processSearch(contextPath, number);
 }
 
 function processSearch(root, currentPage) {
