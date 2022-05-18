@@ -18,7 +18,7 @@
     <meta id="root" about="${pageContext.request.contextPath}">
     <link href="${pageContext.request.contextPath}/resources/bootstrap-4.3.1-dist/css/bootstrap.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/bootstrap-4.3.1-dist/js/jq.js" rel="stylesheet">
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="${pageContext.request.contextPath}/resources/bootstrap-4.3.1-dist/a076d05399.js" crossorigin='anonymous'></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap-4.3.1-dist/js/jq.js">
     </script>
     <script type="text/javascript"
