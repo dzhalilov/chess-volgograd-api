@@ -5,9 +5,7 @@ import com.example.chessvolgograd.repository.PlayerRepository;
 import com.example.chessvolgograd.util.PlayerIncomeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +27,7 @@ public class AdminController {
     public ResponseEntity<Integer> update() {
         log.info("Start updating base in {}", LocalDateTime.now());
         List<Player> players = PlayerIncomeUtil.populateFromAPI();
+        players.forEach(System.out::println);
         playerRepository.saveAll(players);
         log.info("End updating base in {}", LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.CREATED).body(players.size());

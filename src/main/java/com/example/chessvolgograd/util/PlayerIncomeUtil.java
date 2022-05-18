@@ -24,24 +24,28 @@ public class PlayerIncomeUtil {
     private static final String URL_PATH_BLITZ = "https://ratings.ruchess.ru/api/smanager_blitz.csv.zip";
     private static final String region = "34";
 
-    public static List<Player> populateFromAPI() {
+    public static synchronized List<Player> populateFromAPI() {
         log.info("Start downloading classic file from URL={}", URL_PATH_CLASSIC);
         List<String> listOfPlayers34Classic = readZipFileFromRemote(URL_PATH_CLASSIC);
         List<Player> listOfPersonClassic = creatListOfPersonWithClassic(listOfPlayers34Classic);
         log.info("Downloading player from API was completed with {} errors. Read {} players.", errors, listOfPersonClassic.size());
+        errors = 0;
 
         log.info("Start downloading rapid file from URL={}", URL_PATH_RAPID);
         List<String> listOfPlayers34Rapid = readZipFileFromRemote(URL_PATH_RAPID);
         addToPlayersRapidRating(listOfPersonClassic, listOfPlayers34Rapid);
+        log.info("Downloading player from API was completed with {} errors. Read {} players.", errors, listOfPersonClassic.size());
+        errors = 0;
 
         log.info("Start downloading rapid file from URL={}", URL_PATH_BLITZ);
         List<String> listOfPlayers34Blitz = readZipFileFromRemote(URL_PATH_BLITZ);
         addToPlayersBlitzRating(listOfPersonClassic, listOfPlayers34Blitz);
+        log.info("Downloading player from API was completed with {} errors. Read {} players.", errors, listOfPersonClassic.size());
 
         return listOfPersonClassic;
     }
 
-    private static void addToPlayersRapidRating(List<Player> playerList, List<String> listFromAPI) {
+    private static synchronized void addToPlayersRapidRating(List<Player> playerList, List<String> listFromAPI) {
         List<Player> listOfPerson = new ArrayList<>();
         Player player;
         for (String line : listFromAPI) {
@@ -54,12 +58,13 @@ public class PlayerIncomeUtil {
                 player = new Player(id, rapidRating);
                 listOfPerson.add(player);
             } catch (Exception e) {
+                errors++;
                 System.out.println("Ошибка обработки строки: " + line + e.getMessage());
             }
         }
         for (Player value : playerList) {
             for (Player player1 : listOfPerson) {
-                if (value.getId() == player1.getId()) {
+                if (value.getId().equals(player1.getId())) {
                     value.setRapidRating(player1.getRapidRating());
                     break;
                 }
@@ -67,7 +72,7 @@ public class PlayerIncomeUtil {
         }
     }
 
-    private static void addToPlayersBlitzRating(List<Player> playerList, List<String> listFromAPI) {
+    private static synchronized void addToPlayersBlitzRating(List<Player> playerList, List<String> listFromAPI) {
         List<Player> listOfPerson = new ArrayList<>();
         Player player;
         for (String line : listFromAPI) {
@@ -80,12 +85,13 @@ public class PlayerIncomeUtil {
                 player = new Player(id, blitzRating, "Constructor for blitz");
                 listOfPerson.add(player);
             } catch (Exception e) {
+                errors++;
                 System.out.println("Ошибка обработки строки: " + line + e.getMessage());
             }
         }
         for (Player value : playerList) {
             for (Player player1 : listOfPerson) {
-                if (value.getId() == player1.getId()) {
+                if (value.getId().equals(player1.getId())) {
                     value.setBlitzRating(player1.getBlitzRating());
                     break;
                 }
@@ -93,7 +99,7 @@ public class PlayerIncomeUtil {
         }
     }
 
-    private static List<Player> creatListOfPersonWithClassic(List<String> list) {
+    private static synchronized List<Player> creatListOfPersonWithClassic(List<String> list) {
         List<Player> listOfPerson = new ArrayList<>();
         Player player = null;
         for (String line : list) {
@@ -127,7 +133,7 @@ public class PlayerIncomeUtil {
         return listOfPerson;
     }
 
-    private static List<String> readZipFileFromRemote(String urlPath) {
+    private static synchronized List<String> readZipFileFromRemote(String urlPath) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             URL url = new URL(urlPath);
