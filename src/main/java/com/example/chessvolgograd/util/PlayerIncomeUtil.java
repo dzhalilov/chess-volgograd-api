@@ -8,9 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipInputStream;
 
 @Slf4j
@@ -33,68 +31,38 @@ public class PlayerIncomeUtil {
 
         log.info("Start downloading rapid file from URL={}", URL_PATH_RAPID);
         List<String> listOfPlayers34Rapid = readZipFileFromRemote(URL_PATH_RAPID);
-        addToPlayersRapidRating(listOfPersonClassic, listOfPlayers34Rapid);
+        addToPlayersRapidAndBlitzRating(listOfPersonClassic, listOfPlayers34Rapid, "rapid");
         log.info("Downloading player from API was completed with {} errors. Read {} players.", errors, listOfPersonClassic.size());
         errors = 0;
 
         log.info("Start downloading rapid file from URL={}", URL_PATH_BLITZ);
         List<String> listOfPlayers34Blitz = readZipFileFromRemote(URL_PATH_BLITZ);
-        addToPlayersBlitzRating(listOfPersonClassic, listOfPlayers34Blitz);
+        addToPlayersRapidAndBlitzRating(listOfPersonClassic, listOfPlayers34Blitz, "blitz");
         log.info("Downloading player from API was completed with {} errors. Read {} players.", errors, listOfPersonClassic.size());
 
         return listOfPersonClassic;
     }
 
-    private static synchronized void addToPlayersRapidRating(List<Player> playerList, List<String> listFromAPI) {
-        List<Player> listOfPerson = new ArrayList<>();
-        Player player;
+    private static synchronized void addToPlayersRapidAndBlitzRating(List<Player> playerList, List<String> listFromAPI, String typeOfGame) {
         for (String line : listFromAPI) {
             String[] temp = line.split(",");
-            int rapidRating = 0;
+            int rating = 0;
             int id = 0;
             try {
                 id = Integer.parseInt(temp[0]);
-                rapidRating = Integer.parseInt(temp[7]);
-                player = new Player(id, rapidRating);
-                listOfPerson.add(player);
+                rating = Integer.parseInt(temp[7]);
+                int index = Collections.binarySearch(playerList, Player.builder().id(id).build(),
+                        Comparator.comparing(Player::getId));
+                if (index >= 0) {
+                    if (typeOfGame.equals("rapid")) {
+                        playerList.get(index).setRapidRating(rating);
+                    } else if (typeOfGame.equals("blitz")) {
+                        playerList.get(index).setBlitzRating(rating);
+                    }
+                }
             } catch (Exception e) {
                 errors++;
                 System.out.println("Ошибка обработки строки: " + line + e.getMessage());
-            }
-        }
-        for (Player value : playerList) {
-            for (Player player1 : listOfPerson) {
-                if (value.getId().equals(player1.getId())) {
-                    value.setRapidRating(player1.getRapidRating());
-                    break;
-                }
-            }
-        }
-    }
-
-    private static synchronized void addToPlayersBlitzRating(List<Player> playerList, List<String> listFromAPI) {
-        List<Player> listOfPerson = new ArrayList<>();
-        Player player;
-        for (String line : listFromAPI) {
-            String[] temp = line.split(",");
-            int blitzRating;
-            int id;
-            try {
-                id = Integer.parseInt(temp[0]);
-                blitzRating = Integer.parseInt(temp[7]);
-                player = new Player(id, blitzRating, "Constructor for blitz");
-                listOfPerson.add(player);
-            } catch (Exception e) {
-                errors++;
-                System.out.println("Ошибка обработки строки: " + line + e.getMessage());
-            }
-        }
-        for (Player value : playerList) {
-            for (Player player1 : listOfPerson) {
-                if (value.getId().equals(player1.getId())) {
-                    value.setBlitzRating(player1.getBlitzRating());
-                    break;
-                }
             }
         }
     }
@@ -123,7 +91,16 @@ public class PlayerIncomeUtil {
                         fideRating = Integer.parseInt(temp[9]);
                     }
                 }
-                player = new Player(id, name, sex, regionCode, age, rating, fideId, fideRating);
+                player = Player.builder()
+                        .id(id)
+                        .name(name)
+                        .sex(sex)
+                        .regionCode(regionCode)
+                        .age(age)
+                        .classicRating(rating)
+                        .fideId(fideId)
+                        .fideClassicRating(fideRating)
+                        .build();
             } catch (Exception e) {
                 System.out.println("Ошибка обработки строки: " + line + e.getMessage());
                 errors++;
