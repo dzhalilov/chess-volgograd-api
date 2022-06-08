@@ -26,15 +26,14 @@ spring:
 #    driver-class-name: org.h2.Driver
 #     Postgres local
     # PostgreSQL local
-
 #    url: jdbc:postgresql://localhost:5432/postgres
 #    username: user
 #    password: password
     # PostgreSQL heroku
     name: heroku
-    url: jdbc:postgresql://ec2-52-30-67-143.eu-west-1.compute.amazonaws.com:5432/dbfhoo9nj3vrkq
-    username: mmokmrizcsytpz
-    password: 7e6f5fa27f31a5ea10f425bbe78e1f33826b7696e9e10f211825031e8120ddae
+    url: jdbc:postgresql://ec2-54-228-125-183.eu-west-1.compute.amazonaws.com:5432/d65upsa919gm33
+    username: kymufiaublntzg
+    password: 1963f2eeb613639f78a11bf1d772e880b0b6eccf9d6e69b51a8cea07e66e02f1
     driver-class-name: org.postgresql.Driver
 
   # Jackson Serialization Issue Resolver
