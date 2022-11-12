@@ -48,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         StringHttpMessageConverter converterString = new StringHttpMessageConverter();
         converterString.setSupportedMediaTypes(List.of(
-            new MediaType("application", "openmetrics-text")));
+            new MediaType("application", "openmetrics-text"), MediaType.TEXT_PLAIN));
         converters.add(converterString);
 
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
