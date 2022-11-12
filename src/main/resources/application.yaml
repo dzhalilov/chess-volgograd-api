@@ -31,9 +31,9 @@ spring:
 #    password: password
     # PostgreSQL heroku
     name: heroku
-    url: jdbc:postgresql://ec2-54-228-125-183.eu-west-1.compute.amazonaws.com:5432/d65upsa919gm33
-    username: kymufiaublntzg
-    password: 1963f2eeb613639f78a11bf1d772e880b0b6eccf9d6e69b51a8cea07e66e02f1
+    url: jdbc:postgresql://ec2-54-76-105-132.eu-west-1.compute.amazonaws.com:5432/d8352lo1ao6npo
+    username: qxdsxxjyihofza
+    password: 6ac1cdbe1397d60d1237368cff4ff00324d7085fb90ec9c05aa7a4384ed444d5
     driver-class-name: org.postgresql.Driver
 
   # Jackson Serialization Issue Resolver
@@ -48,11 +48,11 @@ spring:
   cache:
     cache-names: players
     caffeine.spec: maximumSize=1,expireAfterAccess=60s
-
-  security:
-    user:
-      name: admin
-      password: e366e5fd-7797-4625-b542-ee5355e8d29b
+#
+#  security:
+#    user:
+#      name: admin
+#      password: e366e5fd-7797-4625-b542-ee5355e8d29b
 
 logging:
   level:
@@ -65,3 +65,16 @@ server.servlet:
     charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
     enabled: true # Enable http encoding support
     force: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
