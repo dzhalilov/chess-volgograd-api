@@ -1,80 +1,28 @@
-#  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+server:
+  port: 10050
+
 spring:
   jpa:
     show-sql: true
-#    open-in-view: false
-    # https://stackoverflow.com/a/67678945/548473
-    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
     properties:
-      #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
       hibernate:
         format_sql: true
-        default_batch_fetch_size: 20
-        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
-        jdbc.batch_size: 20
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-  #    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-#    # H2 ImMemory
-#    url: jdbc:h2:mem:voting
-#    #    tcp: jdbc:h2:tcp://localhost:9092/mem:voting
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-#     Postgres local
-    # PostgreSQL local
-#    url: jdbc:postgresql://localhost:5432/postgres
-#    username: user
-#    password: password
-    # PostgreSQL heroku
-    name: heroku
-    url: jdbc:postgresql://ec2-54-76-105-132.eu-west-1.compute.amazonaws.com:5432/d8352lo1ao6npo
-    username: qxdsxxjyihofza
-    password: 6ac1cdbe1397d60d1237368cff4ff00324d7085fb90ec9c05aa7a4384ed444d5
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/chess-vlg}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
-
-  # Jackson Serialization Issue Resolver
-#  jackson:
-#    visibility:
-#      field: any
-#      getter: none
-#      setter: none
-#      is-getter: none
-
-  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
-  cache:
-    cache-names: players
-    caffeine.spec: maximumSize=1,expireAfterAccess=60s
-#
-#  security:
-#    user:
-#      name: admin
-#      password: e366e5fd-7797-4625-b542-ee5355e8d29b
 
 logging:
   level:
     root: WARN
     com.example.chessvolgograd: DEBUG
-#    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server.servlet:
   encoding:
     charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
     enabled: true # Enable http encoding support
     force: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus
-  metrics:
-    export:
-      prometheus:
-        enabled: true
-    distribution:
-      percentiles-histogram:
-        "[http.server.requests]": true

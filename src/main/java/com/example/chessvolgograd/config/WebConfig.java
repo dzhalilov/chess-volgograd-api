@@ -21,7 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.example.chessvolgograd")
+//@ComponentScan("com.example.chessvolgograd")
 public class WebConfig implements WebMvcConfigurer {
 
 

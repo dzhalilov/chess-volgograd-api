@@ -1,0 +1,17 @@
+{
+	"ulid": "01GHTRCVC3FQ2VYGFMSTZ71PRT",
+	"minTime": 1668369604244,
+	"maxTime": 1668376800000,
+	"stats": {
+		"numSamples": 58968,
+		"numSeries": 546,
+		"numChunks": 546
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01GHTRCVC3FQ2VYGFMSTZ71PRT"
+		]
+	},
+	"version": 1
+}
