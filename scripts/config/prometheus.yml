@@ -1,7 +1,12 @@
+global:
+  evaluation_interval: 10s
 scrape_configs:
-  - job_name: 'sample_monitoring'
-    scrape_interval: 5s
+  - job_name: 'chess_app_metrics'
+    scrape_interval: 10s
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['chess-vlg.herokuapp.com']
-#      - targets: ['host.docker.internal:8080']
+#      - targets: ['chess-vlg.herokuapp.com']
+#      - targets: ['chess_app:10050']
+      - targets: ['host.docker.internal:10050']
+        labels:
+          application: 'Volgograd Chess Ratings'

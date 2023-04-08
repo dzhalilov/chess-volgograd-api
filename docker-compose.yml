@@ -32,3 +32,30 @@ services:
       timeout: 5s
       retries: 5
     restart: always
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss:8.5.2
+#    build: './config/grafana'
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./scripts/grafana:/var/lib/grafana
+    links:
+      - prometheus:prometheus
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.37.1
+    restart: unless-stopped
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./scripts/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./scripts/prometheus:/prometheus
