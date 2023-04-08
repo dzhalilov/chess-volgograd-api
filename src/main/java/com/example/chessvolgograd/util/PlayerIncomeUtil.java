@@ -1,5 +1,6 @@
 package com.example.chessvolgograd.util;
 
+import com.example.chessvolgograd.config.AppConfig;
 import com.example.chessvolgograd.model.Player;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,37 +13,35 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.zip.ZipInputStream;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class PlayerIncomeUtil {
 
-  private PlayerIncomeUtil() {
-  }
+  private final AppConfig appConfig;
+  private int errors = 0;
 
-  private static int errors = 0;
-  private static final String URL_PATH_CLASSIC = "https://ratings.ruchess.ru/api/smanager_standard.csv.zip";
-  private static final String URL_PATH_RAPID = "https://ratings.ruchess.ru/api/smanager_rapid.csv.zip";
-  private static final String URL_PATH_BLITZ = "https://ratings.ruchess.ru/api/smanager_blitz.csv.zip";
-  private static final String region = "34";
-
-  public static List<Player> populateFromAPI() {
-    log.info("Start downloading classic file from URL={}", URL_PATH_CLASSIC);
-    List<String> listOfPlayers34Classic = readZipFileFromRemote(URL_PATH_CLASSIC);
+  public List<Player> populateFromAPI() {
+    log.info("Start downloading classic file from URL={}", appConfig.getUrlPathClassic());
+    List<String> listOfPlayers34Classic = readZipFileFromRemote(appConfig.getUrlPathClassic());
     List<Player> listOfPersonClassic = creatListOfPersonWithClassic(listOfPlayers34Classic);
     log.info("Downloading player from API was completed with {} errors. Read {} players.", errors,
         listOfPersonClassic.size());
     errors = 0;
 
-    log.info("Start downloading rapid file from URL={}", URL_PATH_RAPID);
-    List<String> listOfPlayers34Rapid = readZipFileFromRemote(URL_PATH_RAPID);
+    log.info("Start downloading rapid file from URL={}", appConfig.getUrlPathRapid());
+    List<String> listOfPlayers34Rapid = readZipFileFromRemote(appConfig.getUrlPathRapid());
     addToPlayersRapidAndBlitzRating(listOfPersonClassic, listOfPlayers34Rapid, "rapid");
     log.info("Downloading player from API was completed with {} errors. Read {} players.", errors,
         listOfPersonClassic.size());
     errors = 0;
 
-    log.info("Start downloading rapid file from URL={}", URL_PATH_BLITZ);
-    List<String> listOfPlayers34Blitz = readZipFileFromRemote(URL_PATH_BLITZ);
+    log.info("Start downloading rapid file from URL={}", appConfig.getUrlPathBlitz());
+    List<String> listOfPlayers34Blitz = readZipFileFromRemote(appConfig.getUrlPathBlitz());
     addToPlayersRapidAndBlitzRating(listOfPersonClassic, listOfPlayers34Blitz, "blitz");
     log.info("Downloading player from API was completed with {} errors. Read {} players.", errors,
         listOfPersonClassic.size());
@@ -50,7 +49,7 @@ public class PlayerIncomeUtil {
     return listOfPersonClassic;
   }
 
-  private static void addToPlayersRapidAndBlitzRating(List<Player> playerList,
+  private void addToPlayersRapidAndBlitzRating(List<Player> playerList,
       List<String> listFromAPI, String typeOfGame) {
     for (String line : listFromAPI) {
       String[] temp = line.split(",");
@@ -75,7 +74,7 @@ public class PlayerIncomeUtil {
     }
   }
 
-  private static List<Player> creatListOfPersonWithClassic(List<String> list) {
+  private List<Player> creatListOfPersonWithClassic(List<String> list) {
     List<Player> listOfPerson = new ArrayList<>();
     Player player = null;
     for (String line : list) {
@@ -118,7 +117,7 @@ public class PlayerIncomeUtil {
     return listOfPerson;
   }
 
-  private static List<String> readZipFileFromRemote(String urlPath) {
+  private List<String> readZipFileFromRemote(String urlPath) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       URL url = new URL(urlPath);
@@ -134,10 +133,10 @@ public class PlayerIncomeUtil {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    String result = baos.toString(java.nio.charset.StandardCharsets.UTF_8);
+    String result = baos.toString(StandardCharsets.UTF_8);
     return Arrays.stream(result.split("\\n"))
         .filter(x -> x.split(",").length >= 8)
-        .filter(x -> x.split(",")[4].equals(PlayerIncomeUtil.region))
+        .filter(x -> x.split(",")[4].equals(appConfig.getRegion()))
         .toList();
   }
 }

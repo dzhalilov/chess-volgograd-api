@@ -26,3 +26,11 @@ server.servlet:
     charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
     enabled: true # Enable http encoding support
     force: true
+
+service:
+  url-path-classic: https://ratings.ruchess.ru/api/smanager_standard.csv.zip
+  url-path-rapid: https://ratings.ruchess.ru/api/smanager_rapid.csv.zip
+  url-path-blitz: https://ratings.ruchess.ru/api/smanager_blitz.csv.zip
+  region: 34
+  username: admin
+  password: admin+admin=2*admin
