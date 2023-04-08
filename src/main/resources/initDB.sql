@@ -1,3 +1,5 @@
+create database "chess-vlg";
+
 create table players
 (
     id                  integer not null

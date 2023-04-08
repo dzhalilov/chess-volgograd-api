@@ -22,7 +22,7 @@ public class PlayerIncomeUtil {
     private static final String URL_PATH_BLITZ = "https://ratings.ruchess.ru/api/smanager_blitz.csv.zip";
     private static final String region = "34";
 
-    public static synchronized List<Player> populateFromAPI() {
+    public static List<Player> populateFromAPI() {
         log.info("Start downloading classic file from URL={}", URL_PATH_CLASSIC);
         List<String> listOfPlayers34Classic = readZipFileFromRemote(URL_PATH_CLASSIC);
         List<Player> listOfPersonClassic = creatListOfPersonWithClassic(listOfPlayers34Classic);
@@ -43,11 +43,11 @@ public class PlayerIncomeUtil {
         return listOfPersonClassic;
     }
 
-    private static synchronized void addToPlayersRapidAndBlitzRating(List<Player> playerList, List<String> listFromAPI, String typeOfGame) {
+    private static void addToPlayersRapidAndBlitzRating(List<Player> playerList, List<String> listFromAPI, String typeOfGame) {
         for (String line : listFromAPI) {
             String[] temp = line.split(",");
-            int rating = 0;
-            int id = 0;
+            int rating;
+            int id;
             try {
                 id = Integer.parseInt(temp[0]);
                 rating = Integer.parseInt(temp[7]);
@@ -67,7 +67,7 @@ public class PlayerIncomeUtil {
         }
     }
 
-    private static synchronized List<Player> creatListOfPersonWithClassic(List<String> list) {
+    private static List<Player> creatListOfPersonWithClassic(List<String> list) {
         List<Player> listOfPerson = new ArrayList<>();
         Player player = null;
         for (String line : list) {
@@ -110,7 +110,7 @@ public class PlayerIncomeUtil {
         return listOfPerson;
     }
 
-    private static synchronized List<String> readZipFileFromRemote(String urlPath) {
+    private static List<String> readZipFileFromRemote(String urlPath) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             URL url = new URL(urlPath);
