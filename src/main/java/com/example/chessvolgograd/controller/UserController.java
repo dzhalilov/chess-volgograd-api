@@ -3,6 +3,7 @@ package com.example.chessvolgograd.controller;
 import com.example.chessvolgograd.model.Player;
 import com.example.chessvolgograd.model.PlayerSearchCriteria;
 import com.example.chessvolgograd.service.PlayerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -20,11 +21,11 @@ import java.util.List;
 @Slf4j
 @CacheConfig(cacheNames = "players")
 @CrossOrigin("http://localhost:8081/")
+@RequiredArgsConstructor
 public class UserController {
     static final String REST_USER_URL = "rest/players";
 
-    @Autowired
-    PlayerService playerService;
+    private final PlayerService playerService;
 
     @GetMapping
     @Cacheable

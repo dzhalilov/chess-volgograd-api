@@ -3,6 +3,7 @@ package com.example.chessvolgograd.controller;
 import com.example.chessvolgograd.model.Player;
 import com.example.chessvolgograd.repository.PlayerRepository;
 import com.example.chessvolgograd.util.PlayerIncomeUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = AdminController.REST_URL)
 @Slf4j
+@RequiredArgsConstructor
 public class AdminController {
     static final String REST_URL = "rest/admin";
 
-    @Autowired
-    PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
 
     @PostMapping("/ratings")
     public ResponseEntity<Integer> update() {
