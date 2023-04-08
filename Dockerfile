@@ -1,5 +1,5 @@
 FROM openjdk:17
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+ARG JAR_FILE=target/*.war
+COPY ${JAR_FILE} app.war
 EXPOSE 10050
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.war"]
