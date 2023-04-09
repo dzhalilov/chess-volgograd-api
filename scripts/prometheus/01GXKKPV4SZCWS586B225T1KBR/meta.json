@@ -1,0 +1,17 @@
+{
+	"ulid": "01GXKKPV4SZCWS586B225T1KBR",
+	"minTime": 1680986579677,
+	"maxTime": 1680991200000,
+	"stats": {
+		"numSamples": 10149,
+		"numSeries": 130,
+		"numChunks": 135
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01GXKKPV4SZCWS586B225T1KBR"
+		]
+	},
+	"version": 1
+}

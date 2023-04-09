@@ -1,0 +1,79 @@
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == 'master'
+
+variables:
+  IMAGE_OPENJDK_MAVEN: maven:3.9.1-eclipse-temurin-17
+
+stages:
+  - clean
+  - build
+  - test
+  - build-image
+  - delete-app
+  - deploy
+  
+clean:
+  image: $IMAGE_OPENJDK_MAVEN
+  stage: clean
+  tags:
+    - server
+  script:
+    - echo "Cleaning..."
+    - sh $CI_PROJECT_DIR/maven clean
+
+build:
+  image: $IMAGE_OPENJDK_MAVEN
+  stage: build
+  tags:
+    - server
+  script:
+    - echo "Compiling the code..."
+    - sh $CI_PROJECT_DIR/maven package
+  artifacts:
+    paths:
+      - target/chess-volgograd-0.0.1-SNAPSHOT.war
+    expire_in: 30 min
+
+unit-test:
+  image: $IMAGE_OPENJDK_MAVEN
+  stage: test
+  tags:
+    - server
+  script:
+    - echo "Running unit tests..."
+    - sh $CI_PROJECT_DIR/maven test
+
+build-image:
+  image: docker:stable
+  stage: build-image
+  tags:
+    - server
+
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+  script:
+    - echo "Building Docker Image..."
+    - docker build -t chess-volgograd-app:latest .
+
+stop-application:
+  stage: delete-app
+  tags:
+    - shell
+  script:
+    - echo "Stop and deleting docker containers"
+    - cd $CI_PROJECT_DIR
+    - docker compose down
+    - docker rm -f chess-volgograd-app
+  allow_failure: true
+
+start-new-application:
+  stage: deploy
+  tags:
+    - shell
+  script:
+    - echo "Create and start new containers"
+    - docker compose up -d
