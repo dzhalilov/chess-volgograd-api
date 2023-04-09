@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+scripts/prometheus
+scripts/grafana
 
 ### STS ###
 .apt_generated
