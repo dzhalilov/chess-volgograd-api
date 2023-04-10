@@ -1,2 +1,2 @@
-FROM grafana/grafana:9.0.0
+FROM grafana/grafana
 ADD ./provisioning /etc/grafana/provisioning

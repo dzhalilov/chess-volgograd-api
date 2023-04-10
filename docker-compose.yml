@@ -41,7 +41,9 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - /temp/grafana:/var/lib/grafana
+      - /tmp/grafana/provisioning/:/etc/grafana/provisioning/
+      - /tmp/grafana/data/:/var/lib/grafana
+    user: "$UID:$GID"
     links:
       - prometheus:prometheus
     environment:
