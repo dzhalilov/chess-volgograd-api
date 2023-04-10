@@ -13,6 +13,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: always
 
   postgres:
     image: 'postgres:14.5-alpine'
@@ -37,12 +38,14 @@ services:
     container_name: grafana
 #    image: grafana/grafana-oss:8.5.2
     build: ./scripts/config/grafana
-    restart: unless-stopped
+    restart: always
     ports:
       - '3000:3000'
     volumes:
-      - /tmp/grafana/provisioning/:/etc/grafana/provisioning/
+      - /tmp/grafana/certs/:/certs
       - /tmp/grafana/data/:/var/lib/grafana
+    env_file:
+      - /tmp/grafana/grafana_conf/config.monitoring
     user: "$UID:$GID"
     links:
       - prometheus:prometheus
