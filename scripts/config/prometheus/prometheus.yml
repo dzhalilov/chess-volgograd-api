@@ -6,7 +6,7 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
 #      - targets: ['chess-vlg.herokuapp.com']
-#      - targets: ['chess_app:10050']
-      - targets: ['host.docker.internal:10050']
+      - targets: ['app:10050']
+#      - targets: ['host.docker.internal:10050']
         labels:
           application: 'Volgograd Chess Ratings'

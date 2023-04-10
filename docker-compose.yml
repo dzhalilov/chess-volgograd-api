@@ -35,13 +35,13 @@ services:
 
   grafana:
     container_name: grafana
-    image: grafana/grafana-oss:8.5.2
-#    build: './config/grafana'
+#    image: grafana/grafana-oss:8.5.2
+    build: ./scripts/config/grafana
     restart: unless-stopped
     ports:
       - '3000:3000'
     volumes:
-      - ./scripts/grafana:/var/lib/grafana
+      - /temp/grafana:/var/lib/grafana
     links:
       - prometheus:prometheus
     environment:
@@ -52,10 +52,9 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus:v2.37.1
+    build: ./scripts/config/prometheus
     restart: unless-stopped
     ports:
       - '9090:9090'
     volumes:
-      - ./scripts/config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./scripts/prometheus:/prometheus
+      - /tmp/prometheus:/prometheus
