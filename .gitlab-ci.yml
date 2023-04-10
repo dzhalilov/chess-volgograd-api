@@ -17,6 +17,8 @@ stages:
 
 debug:
   stage: debug
+  tags:
+    - server
   script:
     - echo "GitLab CI/CD | Print all environment variables"
     - env

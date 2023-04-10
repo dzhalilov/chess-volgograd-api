@@ -44,8 +44,6 @@ services:
     volumes:
       - /tmp/grafana/certs/:/certs
       - /tmp/grafana/data/:/var/lib/grafana
-    env_file:
-      - /tmp/grafana/grafana_conf/config.monitoring
     user: "$UID:$GID"
     links:
       - prometheus:prometheus
@@ -63,3 +61,4 @@ services:
       - '9090:9090'
     volumes:
       - /tmp/prometheus:/prometheus
+    user: "$UID:$GID"
