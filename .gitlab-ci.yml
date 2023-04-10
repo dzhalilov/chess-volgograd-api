@@ -8,11 +8,18 @@ variables:
   IMAGE_OPENJDK_MAVEN: maven:3.9.1-eclipse-temurin-17
 
 stages:
+  - debug
   - clean
   - build
   - build-image
   - delete-app
   - deploy
+
+debug:
+  stage: debug
+  script:
+    - echo "GitLab CI/CD | Print all environment variables"
+    - env
   
 clean:
   image: $IMAGE_OPENJDK_MAVEN
@@ -43,7 +50,7 @@ build-image:
     - server
 
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
   script:
     - echo "Building Docker Image..."

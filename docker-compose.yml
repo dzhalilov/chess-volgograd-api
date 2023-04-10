@@ -58,7 +58,7 @@ services:
   prometheus:
     container_name: prometheus
     build: ./scripts/config/prometheus
-    restart: unless-stopped
+    restart: always
     ports:
       - '9090:9090'
     volumes:
