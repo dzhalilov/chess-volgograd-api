@@ -10,7 +10,6 @@ variables:
 stages:
   - clean
   - build
-  - test
   - build-image
   - delete-app
   - deploy
@@ -22,7 +21,7 @@ clean:
     - server
   script:
     - echo "Cleaning..."
-    - sh mvn clean
+    - mvn clean
 
 build:
   image: $IMAGE_OPENJDK_MAVEN
@@ -31,7 +30,7 @@ build:
     - server
   script:
     - echo "Compiling the code..."
-    - sh mvn package
+    - mvn package
   artifacts:
     paths:
       - target/chess-volgograd-0.0.1-SNAPSHOT.war
