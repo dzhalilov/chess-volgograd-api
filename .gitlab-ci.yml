@@ -22,7 +22,7 @@ clean:
     - server
   script:
     - echo "Cleaning..."
-    - sh $CI_PROJECT_DIR/maven clean
+    - sh mvn clean
 
 build:
   image: $IMAGE_OPENJDK_MAVEN
@@ -31,20 +31,11 @@ build:
     - server
   script:
     - echo "Compiling the code..."
-    - sh $CI_PROJECT_DIR/maven package
+    - sh mvn package
   artifacts:
     paths:
       - target/chess-volgograd-0.0.1-SNAPSHOT.war
     expire_in: 30 min
-
-unit-test:
-  image: $IMAGE_OPENJDK_MAVEN
-  stage: test
-  tags:
-    - server
-  script:
-    - echo "Running unit tests..."
-    - sh $CI_PROJECT_DIR/maven test
 
 build-image:
   image: docker:stable
@@ -66,6 +57,7 @@ stop-application:
   script:
     - echo "Stop and deleting docker containers"
     - cd $CI_PROJECT_DIR
+    - docker compose down
     - docker compose down
     - docker rm -f chess-volgograd-app
   allow_failure: true
