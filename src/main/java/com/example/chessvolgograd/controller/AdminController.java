@@ -1,10 +1,7 @@
 package com.example.chessvolgograd.controller;
 
-import com.example.chessvolgograd.model.Player;
-import com.example.chessvolgograd.repository.PlayerRepository;
 import com.example.chessvolgograd.util.PlayerIncomeUtil;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,16 +18,13 @@ public class AdminController {
 
   static final String REST_URL = "rest/admin";
 
-  private final PlayerRepository playerRepository;
   private final PlayerIncomeUtil playerIncomeUtil;
 
   @PostMapping("/ratings")
   public ResponseEntity<Integer> update() {
     log.info("Start updating base in {}", LocalDateTime.now());
-    List<Player> players = playerIncomeUtil.populateFromAPI();
-    players.forEach(System.out::println);
-    playerRepository.saveAll(players);
+    Integer populatedPlayers = playerIncomeUtil.populateFromAPI();
     log.info("End updating base in {}", LocalDateTime.now());
-    return ResponseEntity.status(HttpStatus.CREATED).body(players.size());
+    return ResponseEntity.status(HttpStatus.CREATED).body(populatedPlayers);
   }
 }
