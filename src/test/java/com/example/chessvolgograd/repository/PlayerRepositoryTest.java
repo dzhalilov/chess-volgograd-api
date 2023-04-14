@@ -3,6 +3,8 @@ package com.example.chessvolgograd.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.chessvolgograd.model.Player;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,30 +22,44 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 public class PlayerRepositoryTest {
 
   @Container
-  PostgreSQLContainer container = (PostgreSQLContainer) new PostgreSQLContainer<>("postgres")
-      .withDatabaseName("test-db")
-      .withUsername("postgres")
-      .withPassword("pass");
+  PostgreSQLContainer container = (PostgreSQLContainer)
+      new PostgreSQLContainer<>("postgres")
+          .withDatabaseName("test-db")
+          .withUsername("postgres")
+          .withPassword("pass");
+
+  Player player = Player.builder()
+      .id(123456)
+      .sex("Ж")
+      .name("Балалайкина Елена")
+      .regionCode(34)
+      .classicRating(1234)
+      .rapidRating(1235)
+      .blitzRating(1236)
+      .age(2010)
+      .fideId(3541534)
+      .fideClassicRating(1000)
+      .build();
+
+  @BeforeEach
+  void clear() {
+    playerRepository.deleteAll();
+  }
 
   @Autowired
   private PlayerRepository playerRepository;
 
   @Test
   public void savePlayer() {
-    Player player = Player.builder()
-        .id(123456)
-        .sex("Ж")
-        .name("Балалайкина Елена")
-        .regionCode(34)
-        .classicRating(1234)
-        .rapidRating(1235)
-        .blitzRating(1236)
-        .age(2010)
-        .fideId(3541534)
-        .fideClassicRating(1000)
-        .build();
     Player savedPlayer = playerRepository.save(player);
     assertThat(savedPlayer).usingRecursiveComparison().ignoringFields("id").isEqualTo(player);
+  }
 
+  @Test
+  public void findPlayerById() {
+    playerRepository.save(player);
+    Optional<Player> foundPlayerOption = playerRepository.findById(player.getId());
+    assertThat(foundPlayerOption).isNotEmpty();
+    assertThat(foundPlayerOption.get()).usingRecursiveComparison().isEqualTo(player);
   }
 }
