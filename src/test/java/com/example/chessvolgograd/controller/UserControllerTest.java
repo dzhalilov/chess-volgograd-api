@@ -23,7 +23,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 @WebMvcTest(controllers = UserController.class)
-class UserControllerTest {
+public class UserControllerTest {
 
   @MockBean
   private PlayerService playerService;
