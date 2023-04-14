@@ -1,0 +1,44 @@
+server:
+  port: 10050
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+logging:
+  level:
+    root: WARN
+    com.example.chessvolgograd: DEBUG
+
+server.servlet:
+  encoding:
+    charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
+    enabled: true # Enable http encoding support
+    force: true
+
+service:
+  url-path-classic: https://ratings.ruchess.ru/api/smanager_standard.csv.zip
+  url-path-rapid: https://ratings.ruchess.ru/api/smanager_rapid.csv.zip
+  url-path-blitz: https://ratings.ruchess.ru/api/smanager_blitz.csv.zip
+  region: 34
+  username: admin
+  password: admin+admin=2*admin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    health:
+      show-details: always
+
