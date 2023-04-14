@@ -2,6 +2,7 @@ package com.example.chessvolgograd.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.chessvolgograd.BaseTest;
 import com.example.chessvolgograd.model.Player;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,22 +12,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 @DataJpaTest
-@Testcontainers
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-public class PlayerRepositoryTest {
-
-  @Container
-  PostgreSQLContainer container = (PostgreSQLContainer)
-      new PostgreSQLContainer<>("postgres")
-          .withDatabaseName("test-db")
-          .withUsername("postgres")
-          .withPassword("pass");
+public class PlayerRepositoryTest extends BaseTest {
 
   Player player = Player.builder()
       .id(123456)
