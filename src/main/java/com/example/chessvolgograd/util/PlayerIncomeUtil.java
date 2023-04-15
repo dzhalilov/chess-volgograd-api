@@ -2,7 +2,6 @@ package com.example.chessvolgograd.util;
 
 import com.example.chessvolgograd.config.AppConfig;
 import com.example.chessvolgograd.model.Player;
-import com.example.chessvolgograd.repository.PlayerRepository;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -16,25 +15,18 @@ import java.util.List;
 import java.util.zip.ZipInputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@EnableScheduling
 public class PlayerIncomeUtil {
 
   private final AppConfig appConfig;
-  private final PlayerRepository playerRepository;
 
   private int errors = 0;
 
-  @Transactional
-  @Scheduled(cron = "0 0 1 * * *", zone = "UTC")
-  public Integer populateFromAPI() {
+  public List<Player> populateFromAPI() {
     log.info("Start downloading classic file from URL={}", appConfig.getUrlPathClassic());
     List<String> listOfPlayers34Classic = readZipFileFromRemote(appConfig.getUrlPathClassic());
     List<Player> listOfPersonClassic = creatListOfPersonWithClassic(listOfPlayers34Classic);
@@ -54,12 +46,7 @@ public class PlayerIncomeUtil {
     addToPlayersRapidAndBlitzRating(listOfPersonClassic, listOfPlayers34Blitz, "blitz");
     log.info("Downloading player from API was completed with {} errors. Read {} players.", errors,
         listOfPersonClassic.size());
-    if (!listOfPersonClassic.isEmpty()) {
-      playerRepository.deleteAll();
-      playerRepository.saveAll(listOfPersonClassic);
-    }
-
-    return listOfPersonClassic.size();
+    return listOfPersonClassic;
   }
 
   private void addToPlayersRapidAndBlitzRating(List<Player> playerList,

@@ -1,6 +1,6 @@
 package com.example.chessvolgograd.controller;
 
-import com.example.chessvolgograd.util.PlayerIncomeUtil;
+import com.example.chessvolgograd.service.PlayerService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +18,12 @@ public class AdminController {
 
   static final String REST_URL = "rest/admin";
 
-  private final PlayerIncomeUtil playerIncomeUtil;
+  private final PlayerService playerService;
 
   @PostMapping("/ratings")
   public ResponseEntity<Integer> update() {
     log.info("Start updating base in {}", LocalDateTime.now());
-    Integer populatedPlayers = playerIncomeUtil.populateFromAPI();
+    Integer populatedPlayers = playerService.populateFromAPI();
     log.info("End updating base in {}", LocalDateTime.now());
     return ResponseEntity.status(HttpStatus.CREATED).body(populatedPlayers);
   }

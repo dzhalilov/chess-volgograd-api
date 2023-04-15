@@ -2,6 +2,7 @@ package com.example.chessvolgograd.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import com.example.chessvolgograd.service.PlayerService;
 import com.example.chessvolgograd.util.PlayerIncomeUtil;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AdminControllerTest {
 
   @MockBean
-  private PlayerIncomeUtil playerIncomeUtil;
+  private PlayerService playerService;
   @Autowired
   private MockMvc mockMvc;
 
@@ -33,7 +34,7 @@ public class AdminControllerTest {
   @Test
   @WithMockUser(roles = {"ADMIN"})
   void authenticationError_201() throws Exception {
-    Mockito.when(playerIncomeUtil.populateFromAPI()).thenReturn(2);
+    Mockito.when(playerService.populateFromAPI()).thenReturn(2);
     mockMvc.perform(post("/rest/admin/ratings"))
         .andExpect(MockMvcResultMatchers.status().isCreated())
         .andExpect(

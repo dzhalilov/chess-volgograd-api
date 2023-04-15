@@ -4,6 +4,7 @@ import com.example.chessvolgograd.model.Player;
 import com.example.chessvolgograd.model.PlayerOrder;
 import com.example.chessvolgograd.model.PlayerSearchCriteria;
 import com.example.chessvolgograd.repository.PlayerRepository;
+import com.example.chessvolgograd.util.PlayerIncomeUtil;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,13 +27,14 @@ public class PlayerServiceTest {
   private PlayerRepository playerRepository;
   private PlayerService service;
   private PlayerSearchCriteria criteria;
+  private PlayerIncomeUtil playerIncomeUtil;
 
   @Captor
   private ArgumentCaptor<Specification<Player>> specificationArgumentCaptor;
 
   @BeforeEach
   public void setup() {
-    service = new PlayerService(playerRepository);
+    service = new PlayerService(playerRepository, playerIncomeUtil);
     criteria = PlayerSearchCriteria.builder()
         .name("Дж")
         .order(PlayerOrder.CLASSIC)
