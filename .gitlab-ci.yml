@@ -56,7 +56,7 @@ build-image:
 
   script:
     - echo "Building Docker Image..."
-    - docker build -t chess-volgograd-app:latest .
+    - docker build -t chess-volgograd-app .
 
 stop-application:
   stage: delete-app
