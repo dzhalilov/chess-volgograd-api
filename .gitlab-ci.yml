@@ -67,8 +67,7 @@ stop-application:
     - cd $CI_PROJECT_DIR
     - docker compose down
     - docker compose down
-    - docker rm -f chess_app
-    - docker rm -f postgres_chess
+    - docker rmi -f volgograd-chess-app
   allow_failure: true
 
 start-new-application:
