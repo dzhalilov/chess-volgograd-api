@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.example.chessvolgograd.service.PlayerService;
 import com.example.chessvolgograd.util.PlayerIncomeUtil;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class AdminControllerTest {
   private MockMvc mockMvc;
 
   @Test
+  @DisplayName("Update players by Anonymous. 401")
   void authenticationError_401() throws Exception {
     mockMvc.perform(post("/rest/admin/ratings"))
         .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -33,6 +35,7 @@ public class AdminControllerTest {
 
   @Test
   @WithMockUser(roles = {"ADMIN"})
+  @DisplayName("Update players by Admin")
   void authenticationError_201() throws Exception {
     Mockito.when(playerService.populateFromAPI()).thenReturn(2);
     mockMvc.perform(post("/rest/admin/ratings"))

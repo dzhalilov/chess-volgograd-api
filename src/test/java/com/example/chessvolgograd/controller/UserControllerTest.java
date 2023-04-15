@@ -1,5 +1,7 @@
 package com.example.chessvolgograd.controller;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -7,11 +9,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.chessvolgograd.model.Player;
+import com.example.chessvolgograd.model.PlayerOrder;
 import com.example.chessvolgograd.model.PlayerSearchCriteria;
 import com.example.chessvolgograd.service.PlayerService;
 import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,7 @@ public class UserControllerTest {
   private MockMvc mockMvc;
 
   private static final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+  private static final PlayerSearchCriteria searchCriteria = new PlayerSearchCriteria();
   private final Player alina = Player.builder()
       .age(2010)
       .name("Джалилова Алина")
@@ -62,27 +67,36 @@ public class UserControllerTest {
     params.put("order", List.of("CLASSIC"));
     params.put("pageNumber", List.of("0"));
     params.put("pageSize", List.of("50"));
+    searchCriteria.setName("Джалилов");
+    searchCriteria.setOrder(PlayerOrder.CLASSIC);
+    searchCriteria.setPageNumber(0);
+    searchCriteria.setPageSize(50);
   }
 
   @Test
+  @DisplayName("Get players by criteria")
   void getAllWithFilter() throws Exception {
     when(playerService.getPlayersWithFilter(
-        ArgumentMatchers.any(PlayerSearchCriteria.class))).thenReturn(
-        List.of(alina, artem));
+        ArgumentMatchers.refEq(searchCriteria))).thenReturn(List.of(alina, artem));
     mockMvc.perform(get("/rest/players").params(params))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(jsonPath("$.size()", Matchers.is(2)))
         .andExpect(jsonPath("$.[0].age", Matchers.is(2010)))
         .andExpect(jsonPath("$.[1].age", Matchers.is(2008)));
+    verify(playerService, times(1))
+        .getPlayersWithFilter(ArgumentMatchers.refEq(searchCriteria));
   }
 
   @Test
+  @DisplayName("Count players by criteria")
   void getCount() throws Exception {
-    when(playerService.getCount(ArgumentMatchers.any(PlayerSearchCriteria.class))).thenReturn(2);
+    when(playerService.getCount(ArgumentMatchers.refEq(searchCriteria))).thenReturn(2);
     mockMvc.perform(get("/rest/players/count").params(params))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
         .andExpect(jsonPath("$", Matchers.is(2)));
+    verify(playerService, times(1))
+        .getCount(ArgumentMatchers.refEq(searchCriteria));
   }
 }

@@ -47,10 +47,6 @@ public class PlayerServiceTest {
   }
 
   @Test
-  void getPlayersWithFilter() {
-  }
-
-  @Test
   @DisplayName("Count players by criteria")
   void getCount() {
     Mockito.when(playerRepository.findAll(specificationArgumentCaptor.capture()))

@@ -6,6 +6,7 @@ import com.example.chessvolgograd.BaseTest;
 import com.example.chessvolgograd.model.Player;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -40,12 +41,14 @@ public class PlayerRepositoryTest extends BaseTest {
   private PlayerRepository playerRepository;
 
   @Test
+  @DisplayName("Save players")
   public void savePlayer() {
     Player savedPlayer = playerRepository.save(player);
     assertThat(savedPlayer).usingRecursiveComparison().ignoringFields("id").isEqualTo(player);
   }
 
   @Test
+  @DisplayName("Find players by id")
   public void findPlayerById() {
     playerRepository.save(player);
     Optional<Player> foundPlayerOption = playerRepository.findById(player.getId());
