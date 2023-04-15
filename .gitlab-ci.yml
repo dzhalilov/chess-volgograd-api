@@ -56,7 +56,7 @@ build-image:
 
   script:
     - echo "Building Docker Image..."
-    - docker build -t chess-volgograd-app .
+    - docker build -t chess-volgograd-app:latest .
 
 stop-application:
   stage: delete-app
@@ -67,7 +67,8 @@ stop-application:
     - cd $CI_PROJECT_DIR
     - docker compose down
     - docker compose down
-    - docker rmi -f chess-volgograd-app
+    - docker rm -f chess_app
+    - docker rm -f postgres_chess
   allow_failure: true
 
 start-new-application:
