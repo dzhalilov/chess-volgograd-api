@@ -13,7 +13,7 @@
     </script>
 
     <meta charset="utf-8">
-    <title>Рейтинг Волгоградских шахматистов TEST</title>
+    <title>Рейтинг Волгоградских шахматистов</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/chess.png" sizes="32x32">
     <meta id="root" about="${pageContext.request.contextPath}">
     <link href="${pageContext.request.contextPath}/resources/bootstrap-4.3.1-dist/css/bootstrap.css" rel="stylesheet">
@@ -79,7 +79,7 @@
         <h5 id="count" style="float: right; margin-right: 20px"></h5>
     </form>
     <h1 style="text-align: center; margin-top: 50px; margin-bottom: 30px">
-        <i class='fas fa-chess-queen' style='color: red'></i> Шахматисты Волгоградской области
+        <i class='fas fa-chess-queen' style='color: red'></i> Шахматисты Волгоградской области TEST
         <i class='fas fa-chess-queen' style='color: red'></i> </h1>
 
     <label style="float: left ; margin-right: 10px" for="order">Сортировка: </label>
