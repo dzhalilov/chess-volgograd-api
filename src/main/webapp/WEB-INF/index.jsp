@@ -13,7 +13,7 @@
     </script>
 
     <meta charset="utf-8">
-    <title>Рейтинг Волгоградских шахматистов</title>
+    <title>Рейтинг Волгоградских шахматистов TEST</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/chess.png" sizes="32x32">
     <meta id="root" about="${pageContext.request.contextPath}">
     <link href="${pageContext.request.contextPath}/resources/bootstrap-4.3.1-dist/css/bootstrap.css" rel="stylesheet">
