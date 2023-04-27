@@ -79,7 +79,7 @@
         <h5 id="count" style="float: right; margin-right: 20px"></h5>
     </form>
     <h1 style="text-align: center; margin-top: 50px; margin-bottom: 30px">
-        <i class='fas fa-chess-queen' style='color: red'></i> Шахматисты Волгоградской области TEST
+        <i class='fas fa-chess-queen' style='color: red'></i> Шахматисты Волгоградской области TEST!!!
         <i class='fas fa-chess-queen' style='color: red'></i> </h1>
 
     <label style="float: left ; margin-right: 10px" for="order">Сортировка: </label>
